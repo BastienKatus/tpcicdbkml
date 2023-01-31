@@ -21,4 +21,4 @@ jobs:
 
      #finally build your app with the latest command
       - name: Build and test with Maven
-        run: cd ./tpcicdbkml/devops-resources-main/solution/01-docker/simple-api mvn clean verify -e
+        run: cd ./devops-resources-main/solution/01-docker/simple-api && mvn clean verify

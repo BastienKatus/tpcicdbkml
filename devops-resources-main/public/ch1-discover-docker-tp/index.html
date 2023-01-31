@@ -1,0 +1,1221 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+    
+    
+      
+        <title>TP part 01 - Docker - Devops</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#e92063">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="pink" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#discover-docker" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Devops" class="md-header__button md-logo" aria-label="Devops" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Devops
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              TP part 01 - Docker
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        TP
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch1-discover-docker-td/" class="md-tabs__link">
+        TD
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Devops" class="md-nav__button md-logo" aria-label="Devops" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    Devops
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          TP
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="TP" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          TP
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          TP part 01 - Docker
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        TP part 01 - Docker
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals" class="md-nav__link">
+    Goals
+  </a>
+  
+    <nav class="md-nav" aria-label="Goals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#good-practice" class="md-nav__link">
+    Good practice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-application" class="md-nav__link">
+    Target application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#base-images" class="md-nav__link">
+    Base images
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database" class="md-nav__link">
+    Database
+  </a>
+  
+    <nav class="md-nav" aria-label="Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basics" class="md-nav__link">
+    Basics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#init-database" class="md-nav__link">
+    Init database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persist-data" class="md-nav__link">
+    Persist data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backend-api" class="md-nav__link">
+    Backend API
+  </a>
+  
+    <nav class="md-nav" aria-label="Backend API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basics_1" class="md-nav__link">
+    Basics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multistage-build" class="md-nav__link">
+    Multistage build
+  </a>
+  
+    <nav class="md-nav" aria-label="Multistage build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backend-simple-api" class="md-nav__link">
+    Backend simple api
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-api_1" class="md-nav__link">
+    Backend API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-server" class="md-nav__link">
+    Http server
+  </a>
+  
+    <nav class="md-nav" aria-label="Http server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basics_2" class="md-nav__link">
+    Basics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choose-an-appropriate-base-image" class="md-nav__link">
+    Choose an appropriate base image.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse-proxy" class="md-nav__link">
+    Reverse proxy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#link-application" class="md-nav__link">
+    Link application
+  </a>
+  
+    <nav class="md-nav" aria-label="Link application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    Docker-compose
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#publish" class="md-nav__link">
+    Publish
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch2-discover-github-actions-tp/" class="md-nav__link">
+        TP part 02 - Github Actions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          TD
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="TD" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          TD
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch1-discover-docker-td/" class="md-nav__link">
+        TD part 01 - Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch2-discover-github-actions-td/" class="md-nav__link">
+        TD part 02 - Github Actions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals" class="md-nav__link">
+    Goals
+  </a>
+  
+    <nav class="md-nav" aria-label="Goals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#good-practice" class="md-nav__link">
+    Good practice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-application" class="md-nav__link">
+    Target application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#base-images" class="md-nav__link">
+    Base images
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database" class="md-nav__link">
+    Database
+  </a>
+  
+    <nav class="md-nav" aria-label="Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basics" class="md-nav__link">
+    Basics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#init-database" class="md-nav__link">
+    Init database
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persist-data" class="md-nav__link">
+    Persist data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backend-api" class="md-nav__link">
+    Backend API
+  </a>
+  
+    <nav class="md-nav" aria-label="Backend API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basics_1" class="md-nav__link">
+    Basics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multistage-build" class="md-nav__link">
+    Multistage build
+  </a>
+  
+    <nav class="md-nav" aria-label="Multistage build">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backend-simple-api" class="md-nav__link">
+    Backend simple api
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-api_1" class="md-nav__link">
+    Backend API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-server" class="md-nav__link">
+    Http server
+  </a>
+  
+    <nav class="md-nav" aria-label="Http server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basics_2" class="md-nav__link">
+    Basics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choose-an-appropriate-base-image" class="md-nav__link">
+    Choose an appropriate base image.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse-proxy" class="md-nav__link">
+    Reverse proxy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#link-application" class="md-nav__link">
+    Link application
+  </a>
+  
+    <nav class="md-nav" aria-label="Link application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    Docker-compose
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#publish" class="md-nav__link">
+    Publish
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="discover-docker">Discover Docker</h1>
+<div class="admonition check">
+<p class="admonition-title">Check</p>
+<p>Checkpoint: call us to check your results (don’t stay blocked on a checkpoint if we are busy, we can check ⅔ checkpoints at the same time). </p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>Point to document/report.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Interesting information.</p>
+</div>
+<h2 id="goals">Goals</h2>
+<h3 id="good-practice">Good practice</h3>
+<p>Do not forget to document what you do along the steps, the documentation provided will be evaluated as your report.
+Create an appropriate file structure, 1 folder per image.</p>
+<h3 id="target-application">Target application</h3>
+<p>3-tiers application:</p>
+<ul>
+<li>HTTP server</li>
+<li>Backend API</li>
+<li>Database</li>
+</ul>
+<p>For each of those applications, we will follow the same process: choose the appropriate docker base image, create and configure this image, put our application specifics inside and at some point have it running. Our final goal is to have a 3-tier web API running.</p>
+<h3 id="base-images">Base images</h3>
+<ul>
+<li><a href="https://hub.docker.com/_/httpd" target="_blank">HTTP server</a></li>
+<li><a href="https://hub.docker.com/_/openjdk" target="_blank">Backend API</a></li>
+<li><a href="https://hub.docker.com/_/postgres" target="_blank">Database</a></li>
+</ul>
+<h2 id="database">Database</h2>
+<h3 id="basics">Basics</h3>
+<p>We will use the image: postgres:14.1-alpine.</p>
+<p>Let’s have a simple postgres server running, here is what would be a minimal Dockerfile:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">postgres:14.1-alpine</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">POSTGRES_DB</span><span class="o">=</span>db<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">   </span><span class="nv">POSTGRES_USER</span><span class="o">=</span>usr<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">   </span><span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span><span class="nb">pwd</span>
+</code></pre></div>
+<p>Build this image and start a container properly, you should be able to access your database depending on the port binding you choose: localhost:PORT.</p>
+<p>Your Postgres DB should be up and running. Connect to your database and check that everything is running smoothly.<br />
+Don’t forget to name your docker image and container.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you have difficulties go back to part <strong>2.3.3 Build the image</strong> and <strong>2.3.4 Run your image</strong>  on TD01 - Docker (<a href="http://school.pages.takima.io/devops-resources/ch1-discover-docker-td/" target="_blank">TD 1 Discover Docker</a>).</p>
+</div>
+<p>Re-run your database and <a href="https://hub.docker.com/_/adminer/" target="_blank">adminer</a> with <code>--network app-network</code> to enable adminer/database communication.
+We use <code>-–network</code> instead of <code>-–link</code> because the latter is deprecated.</p>
+<p>Also, does it seem right to have passwords written in plain text in a file? You may rather define those environment parameters when running the image using the flag <code>-e</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Why should we run the container with a flag <code>-e</code> to give the environment variables?</p>
+</div>
+<h3 id="init-database">Init database</h3>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Don't forget to create your network</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">    </span>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>app-network
+</code></pre></div>
+</div>
+<p>It would be nice to have our database structure initialized with the docker image as well as some initial data. Any sql scripts found in <code>/docker-entrypoint-initdb.d</code> will be executed in alphabetical order, therefore let’s add a couple scripts to our image:  </p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Don't forget to restart the adminer: </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">    </span>docker<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span>-p<span class="w"> </span><span class="s2">&quot;8090:8080&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>--net<span class="o">=</span>app-network<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span>--name<span class="o">=</span>adminer<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span>-d<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span>adminer
+</code></pre></div>
+</div>
+<p><strong>01-CreateScheme.sql</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">public</span><span class="p">.</span><span class="n">departments</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">(</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w"> </span><span class="n">id</span><span class="w">      </span><span class="nb">SERIAL</span><span class="w">      </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w"> </span><span class="n">name</span><span class="w">    </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">);</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">public</span><span class="p">.</span><span class="n">students</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">(</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w"> </span><span class="n">id</span><span class="w">              </span><span class="nb">SERIAL</span><span class="w">      </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w"> </span><span class="n">department_id</span><span class="w">   </span><span class="nb">INT</span><span class="w">         </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w"> </span><span class="n">first_name</span><span class="w">      </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w"> </span><span class="n">last_name</span><span class="w">       </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">);</span>
+</code></pre></div>
+<strong>02-InsertData.sql</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;IRC&#39;</span><span class="p">);</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;ETI&#39;</span><span class="p">);</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;CGP&#39;</span><span class="p">);</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="p">(</span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Eli&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Copter&#39;</span><span class="p">);</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="p">(</span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Emma&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Carena&#39;</span><span class="p">);</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="p">(</span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Jack&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Uzzi&#39;</span><span class="p">);</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="p">(</span><span class="n">department_id</span><span class="p">,</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Aude&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Javel&#39;</span><span class="p">);</span>
+</code></pre></div></p>
+<p>Rebuild your image and check that your scripts have been executed at startup and that the data is present in your container.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When we talk about <code>/docker-entrypoint-initdb.d</code> it means inside the container, so you have to copy your directory's content and the container’s directory.</p>
+</div>
+<h3 id="persist-data">Persist data</h3>
+<p>You may have noticed that if your database container gets destroyed then all your data is reset, a database must persist data durably. Use volumes to persist data on the host disk.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>-v<span class="w"> </span>/my/own/datadir:/var/lib/postgresql/data
+</code></pre></div>
+<p>Check that data survives when your container gets destroyed.</p>
+<div class="admonition link">
+<p class="admonition-title">Link</p>
+<p><a href="https://docs.docker.com/storage/volumes/" target="_blank">Docker volumes</a></p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Why do we need a volume to be attached to our postgres container?</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>1-1 Document your database container essentials: commands and Dockerfile.</p>
+</div>
+<h2 id="backend-api">Backend API</h2>
+<h3 id="basics_1">Basics</h3>
+<p>For starters, we will simply run a Java hello-world class in our containers, only after will we be running a jar. In both cases, choose the proper image keeping in mind that <strong>we only need a Java runtime</strong>.  </p>
+<p>Here is a complex <strong>Java Hello World</strong> implementation:</p>
+<p><strong>Main.java</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">       </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">);</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">   </span><span class="p">}</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">}</span>
+</code></pre></div></p>
+<p>1- Compile with your target Java: <code>javac Main.java</code>.  <br />
+2- Write dockerfile.<br />
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>FROM<span class="w">   </span><span class="c1"># TODO: Choose a java JRE</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># TODO:  Add the compiled java (aka bytecode, aka .class)</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># TODO: Run the Java with: “java Main” command.</span>
+</code></pre></div>
+3- Now, to launch app you have to do the same thing that Basic step 1.</p>
+<p>Here you have a first glimpse of your backend application.</p>
+<p>In the next step we will simply enrich the build (using maven instead of a minimalistic javac) and execute a jar instead of a simple .class.  </p>
+<p>→ If it’s a success you must see “Hello Word” in your console.</p>
+<h3 id="multistage-build">Multistage build</h3>
+<p>In the previous section we were building Java code on our machine to have it running on a docker container. Wouldn’t it be great to have Docker handle the build as well? You probably noticed that the default openjdk docker images contain... Well... a JDK! Create a multistage build using the <a href="https://docs.docker.com/develop/develop-images/multistage-build/" target="_blank">Multistage</a>.</p>
+<p>Your Dockerfile should look like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">openjdk:11</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c"># Build Main.java</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c"># TODO : in next steps (not now)</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">FROM</span><span class="w"> </span><span class="s">openjdk:11-jre</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c"># Copy resource from previous stage</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span><span class="m">0</span><span class="w"> </span>/usr/src/Main.class<span class="w"> </span>.
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c"># Run java code with the JRE</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c"># TODO : in next steps (not now)</span>
+</code></pre></div>
+<p>Don’t fill the Dockerfile now, we will have to do it in the next steps.</p>
+<h4 id="backend-simple-api">Backend simple api</h4>
+<p>We will deploy a Springboot application providing a simple API with a single greeting endpoint.  </p>
+<p>Create your Springboot application on: <a href="https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.7.7&packaging=jar&jvmVersion=17&groupId=fr.takima.training&artifactId=simpleapi&name=simpleapi&description=Demo%20project%20for%20Spring%20Boot&packageName=fr.takima.training.simpleapi&dependencies=web" target="_blank">Spring Initializer</a>.</p>
+<p>Use the following config:</p>
+<ul>
+<li>Project: Maven  </li>
+<li>Language: Java 17  </li>
+<li>Spring Boot: 2.7.5  </li>
+<li>Packaging: Jar  </li>
+<li>Dependencies: <strong>Spring Web</strong></li>
+</ul>
+<p>Generate the project and give it a simple GreetingController class:  </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">fr.takima.training.simpleapi.controller</span><span class="p">;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.*</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.atomic.AtomicLong</span><span class="p">;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="nd">@RestController</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GreetingController</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">   </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">template</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello, %s!&quot;</span><span class="p">;</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">   </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">AtomicLong</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicLong</span><span class="p">();</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">   </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="n">Greeting</span><span class="w"> </span><span class="nf">greeting</span><span class="p">(</span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Greeting</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="na">incrementAndGet</span><span class="p">(),</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="n">template</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">));</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">   </span><span class="p">}</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">   </span><span class="kd">class</span> <span class="nc">Greeting</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">       </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">       </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">content</span><span class="p">;</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="w">       </span><span class="kd">public</span><span class="w"> </span><span class="nf">Greeting</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">content</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="w">           </span><span class="k">this</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">           </span><span class="k">this</span><span class="p">.</span><span class="na">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">content</span><span class="p">;</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="w">       </span><span class="p">}</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">       </span><span class="kd">public</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">getId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="w">           </span><span class="k">return</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="w">       </span><span class="p">}</span>
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="w">       </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getContent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="w">           </span><span class="k">return</span><span class="w"> </span><span class="n">content</span><span class="p">;</span>
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="w">       </span><span class="p">}</span>
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="w">   </span><span class="p">}</span>
+<a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="p">}</span>
+</code></pre></div>
+<p>You can now build and start your application, of course you will need maven and a jdk-17. </p>
+<p>How convenient would it be to have a virtual container to build and run our simplistic API? </p>
+<p>Oh wait, we have docker, here is how you could build and run your application with Docker:  </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c"># Build</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">FROM</span><span class="w"> </span><span class="s">maven:3.8.6-amazoncorretto-17</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">myapp-build</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">ENV</span><span class="w"> </span>MYAPP_HOME<span class="w"> </span>/opt/myapp
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">$MYAPP_HOME</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">COPY</span><span class="w"> </span>pom.xml<span class="w"> </span>.
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="k">COPY</span><span class="w"> </span>src<span class="w"> </span>./src
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="k">RUN</span><span class="w"> </span>mvn<span class="w"> </span>package<span class="w"> </span>-DskipTests
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c"># Run</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="k">FROM</span><span class="w"> </span><span class="s">amazoncorretto:17</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="k">ENV</span><span class="w"> </span>MYAPP_HOME<span class="w"> </span>/opt/myapp
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="k">WORKDIR</span><span class="w"> </span><span class="s">$MYAPP_HOME</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>myapp-build<span class="w"> </span><span class="nv">$MYAPP_HOME</span>/target/*.jar<span class="w"> </span><span class="nv">$MYAPP_HOME</span>/myapp.jar
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="k">ENTRYPOINT</span><span class="w"> </span>java<span class="w"> </span>-jar<span class="w"> </span>myapp.jar
+</code></pre></div>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>1-2 Why do we need a multistage build? And explain each step of this dockerfile.</p>
+</div>
+<div class="admonition check">
+<p class="admonition-title">Check</p>
+<p>A working Springboot application with a simple HelloWorld endpoint.</p>
+</div>
+<p>Did you notice that maven downloads all libraries on every image build?<br />
+You can contribute to saving the planet caching libraries when maven pom file has not been changed by running the goal: <code>mvn dependency:go-offline</code>.</p>
+<h4 id="backend-api_1">Backend API</h4>
+<p>Let’s now build and run the backend API connected to the database. You can get the zipped source code here: <a href="https://github.com/takima-training/simple-api-student" target="_blank">simple-api</a>.</p>
+<p>Adjust the configuration in <code>simple-api/src/main/resources/application.yml</code> (this is the application configuration).
+How to access the database container from your backend application? Use the deprecated <code>--link</code> or create a <code>docker network</code>.</p>
+<p>Once everything is properly bound, you should be able to access your application API, for example on: <a href="http://localhost:8080/departments/IRC/students" target="_blank">/departments/IRC/students</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">[</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="p">{</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Eli&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Copter&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="nt">&quot;department&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IRC&quot;</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="p">]</span>
+</code></pre></div>
+<p>Explore your API other endpoints, have a look at the controllers in the source code.</p>
+<div class="admonition check">
+<p class="admonition-title">Check</p>
+<p>A simple web API on top of your database.</p>
+</div>
+<h2 id="http-server">Http server</h2>
+<h3 id="basics_2">Basics</h3>
+<h3 id="choose-an-appropriate-base-image">Choose an appropriate base image.</h3>
+<p>Create a simple landing page: <code>index.html</code> and put it inside your container.</p>
+<p>It should be enough for now, start your container and check that everything is working as expected.</p>
+<p>Here are commands that you may want to try to do so:</p>
+<ul>
+<li>docker stats</li>
+<li>docker inspect</li>
+<li>docker logs</li>
+</ul>
+<div class="admonition link">
+<p class="admonition-title">Link</p>
+<ul>
+<li><a href="https://hub.docker.com/_/httpd" target="_blank">Httpd</a></li>
+<li><a href="https://httpd.apache.org/docs/2.4/getting-started.html" target="_blank">Getting Started</a>  </li>
+</ul>
+</div>
+<h3 id="configuration">Configuration</h3>
+<p>You are using the default apache configuration, and it will be enough for now, you use yours by copying it in your image.</p>
+<p>Use <code>docker exec</code> to retrieve this default configuration from your running container <code>/usr/local/apache2/conf/httpd.conf</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can also use <code>docker cp</code>.</p>
+</div>
+<h3 id="reverse-proxy">Reverse proxy</h3>
+<p>We will configure the http server as a simple reverse proxy server in front of our application, this server could be used to deliver a front-end application, to configure SSL or to handle load balancing.  </p>
+<p>So this can be quite useful even though in our case we will keep things simple.  </p>
+<p>Here is the documentation: <a href="https://httpd.apache.org/docs/2.4/en/howto/reverse_proxy.html" target="_blank">Reverse Proxy</a>.</p>
+<p>Add the following to the configuration, and you should be all set:</p>
+<p>ServerName localhost</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>&lt;VirtualHost<span class="w"> </span>*:80&gt;
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>ProxyPreserveHost<span class="w"> </span>On
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>ProxyPass<span class="w"> </span>/<span class="w"> </span>http://YOUR_BACKEND_LINK:8080/
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>ProxyPassReverse<span class="w"> </span>/<span class="w"> </span>http://YOUR_BACKEND_LINK:8080/
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>&lt;/VirtualHost&gt;
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Why do we need a reverse proxy?</p>
+</div>
+<div class="admonition notes">
+<p class="admonition-title">Notes</p>
+<p>Checkpoint: a working application through a reverse proxy.</p>
+</div>
+<h2 id="link-application">Link application</h2>
+<h3 id="docker-compose">Docker-compose</h3>
+<p>1- Install <a href="https://docs.docker.com/compose/install/" target="_blank">docker-compose</a> if the <code>docker compose</code> command does not work .</p>
+<p>You may have noticed that this can be quite painful to orchestrate manually the start, stop and rebuild of our containers. Thankfully, a useful tool called <a href="https://docs.docker.com/compose/" target="_blank">docker-compose</a> comes in handy in those situations.  </p>
+<p>2- Let’s create a docker-compose.yml file with the following structure to define and drive our containers:<br />
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.7&#39;</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">        </span><span class="nt">build</span><span class="p">:</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">        </span><span class="nt">networks</span><span class="p">:</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">        </span><span class="nt">depends_on</span><span class="p">:</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="nt">database</span><span class="p">:</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">        </span><span class="nt">build</span><span class="p">:</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">        </span><span class="nt">networks</span><span class="p">:</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="w">    </span><span class="nt">httpd</span><span class="p">:</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">        </span><span class="nt">build</span><span class="p">:</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="w">        </span><span class="nt">networks</span><span class="p">:</span>
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="w">        </span><span class="nt">depends_on</span><span class="p">:</span>
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a><span class="nt">networks</span><span class="p">:</span>
+<a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a><span class="w">    </span><span class="nt">my-network</span><span class="p">:</span>
+</code></pre></div></p>
+<p>The docker-compose will handle the three containers and a network for us.  </p>
+<p>Once your containers are orchestrated as services by docker-compose you should have a perfectly running application, make sure you can access your API on <a href="http://localhost/" target="_blank">localhost</a>.  </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The ports of both your backend and database should not be opened to your host machine.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Why is <strong>docker-compose</strong> so important?</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>1-3 Document docker-compose most important commands.
+1-4 Document your docker-compose file.</p>
+</div>
+<div class="admonition check">
+<p class="admonition-title">Check</p>
+<p>A working 3-tier application running with docker-compose.</p>
+</div>
+<h2 id="publish">Publish</h2>
+<p>Your docker images are stored locally, let’s publish them, so they can be used by other team members or on other machines.  </p>
+<p>You will need a <a href="https://hub.docker.com/" target="_blank">Docker Hub</a> account.  </p>
+<p>1- Connect to your freshly created account with <code>docker login</code>.</p>
+<p>2- Tag your image. For now, we have been only using the latest tag, now that we want to publish it, let’s add some meaningful version information to our images.  </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>docker<span class="w"> </span>tag<span class="w"> </span>my-database<span class="w"> </span>USERNAME/my-database:1.0
+</code></pre></div>
+<p>3- Then push your image to dockerhub:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span>push<span class="w"> </span>USERNAME/my-database<span class="w">  </span>
+</code></pre></div>
+<p><strong>Dockerhub</strong> is not the only docker image registry, and you can also self-host your images (this is obviously the choice of most companies).  </p>
+<p>Once you publish your images to dockerhub, you will see them in your account: having some documentation for your image would be quite useful if you want to use those later.</p>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>1-5 Document your publication commands and published images in dockerhub.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Why do we put our images into an online repo?</p>
+</div>
+<p align="center">&copy; Takima 2023</p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+      
+        
+        <a href="../ch2-discover-github-actions-tp/" class="md-footer__link md-footer__link--next" aria-label="Next: TP part 02 - Github Actions" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              TP part 02 - Github Actions
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
+      
+    
+  </body>
+</html>

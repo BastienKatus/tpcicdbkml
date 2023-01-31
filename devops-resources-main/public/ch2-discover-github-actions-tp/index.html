@@ -1,0 +1,904 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+    
+    
+      
+        <title>TP part 02 - Github Actions - Devops</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#e92063">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="pink" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#discover-github-action" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Devops" class="md-header__button md-logo" aria-label="Devops" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Devops
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              TP part 02 - Github Actions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch1-discover-docker-tp/" class="md-tabs__link md-tabs__link--active">
+        TP
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ch1-discover-docker-td/" class="md-tabs__link">
+        TD
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Devops" class="md-nav__button md-logo" aria-label="Devops" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    Devops
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          TP
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="TP" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          TP
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch1-discover-docker-tp/" class="md-nav__link">
+        TP part 01 - Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          TP part 02 - Github Actions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        TP part 02 - Github Actions
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals" class="md-nav__link">
+    Goals
+  </a>
+  
+    <nav class="md-nav" aria-label="Goals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#good-practice" class="md-nav__link">
+    Good Practice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-application" class="md-nav__link">
+    Target Application
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-github-actions" class="md-nav__link">
+    Setup GitHub Actions
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup GitHub Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-steps-into-the-ci-world" class="md-nav__link">
+    First steps into the CI World
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-and-test-your-application" class="md-nav__link">
+    Build and test your Application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#first-steps-into-the-cd-world" class="md-nav__link">
+    First steps into the CD World
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-quality-gate" class="md-nav__link">
+    Setup Quality Gate
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup Quality Gate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-quality-about" class="md-nav__link">
+    What is quality about?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register-to-sonarcloud" class="md-nav__link">
+    Register to SonarCloud
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonus-split-pipelines-optional" class="md-nav__link">
+    Bonus: split pipelines (Optional)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          TD
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="TD" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          TD
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch1-discover-docker-td/" class="md-nav__link">
+        TD part 01 - Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch2-discover-github-actions-td/" class="md-nav__link">
+        TD part 02 - Github Actions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals" class="md-nav__link">
+    Goals
+  </a>
+  
+    <nav class="md-nav" aria-label="Goals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#good-practice" class="md-nav__link">
+    Good Practice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-application" class="md-nav__link">
+    Target Application
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-github-actions" class="md-nav__link">
+    Setup GitHub Actions
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup GitHub Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-steps-into-the-ci-world" class="md-nav__link">
+    First steps into the CI World
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-and-test-your-application" class="md-nav__link">
+    Build and test your Application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#first-steps-into-the-cd-world" class="md-nav__link">
+    First steps into the CD World
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-quality-gate" class="md-nav__link">
+    Setup Quality Gate
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup Quality Gate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-quality-about" class="md-nav__link">
+    What is quality about?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register-to-sonarcloud" class="md-nav__link">
+    Register to SonarCloud
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonus-split-pipelines-optional" class="md-nav__link">
+    Bonus: split pipelines (Optional)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="discover-github-action">Discover Github Action</h1>
+<div class="admonition check">
+<p class="admonition-title">Check</p>
+<p>Checkpoint: call us to check your results (don’t stay blocked on a checkpoint if we are busy, we can check ⅔ checkpoints at the same time)  </p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>Point to document/report  </p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Interesting information</p>
+</div>
+<h2 id="goals">Goals</h2>
+<h3 id="good-practice">Good Practice</h3>
+<p>Do not forget to document what you do along the steps.</p>
+<p>Create an appropriate file structure, 1 folder per image.</p>
+<h3 id="target-application">Target Application</h3>
+<p>Complete pipeline workflow for testing and delivering your software application.</p>
+<p>We are going to use different useful tools to build your application, test it automatically, and check the code quality at the same time.</p>
+<div class="admonition link">
+<p class="admonition-title">Link</p>
+<p><a href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions" target="_blank">GitHub Actions</a></p>
+</div>
+<h2 id="setup-github-actions">Setup GitHub Actions</h2>
+<p>The first tool we are going to use is <strong>GitHub Actions</strong>. <strong>GitHub Actions</strong> is an online service that allows you to build pipelines to test your application. Keep in mind that <strong>GitHub Actions</strong> is not the only one on the market to build integration pipelines. </p>
+<p>Historically many companies were using <a href="https://jenkins.io/" target="_blank">Jenkins</a> (and still a lot continue to do it), it is way less accessible than  <strong>GitHub Actions</strong> but much more configurable. You will also hear about <a href="https://about.gitlab.com/product/continuous-integration/" target="_blank">Gitlab CI</a> and <a href="https://bitbucket.org/product/fr/features/pipelines" target="_blank">Bitbucket Pipelines</a> during your work life.</p>
+<h3 id="first-steps-into-the-ci-world">First steps into the CI World</h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Push your previous project on your personal GitHub repository.</p>
+</div>
+<p>Most of the CI services use a <a href="https://yaml.org/" target="_blank">yaml</a> file (except Jenkins that uses a… <a href="https://groovy-lang.org/" target="_blank">Groovy</a> file…) to describe the expected steps to be done over the pipeline execution. Go on and create your first main.yml file into your project’s root directory.</p>
+<h3 id="build-and-test-your-application">Build and test your Application</h3>
+<p>For those who are not familiar with <a href="https://maven.apache.org/" target="_blank">Maven</a> and <a href="https://www.java.com/fr/" target="_blank">Java</a> project structures, here is the command for building and running your tests:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mvn<span class="w"> </span>clean<span class="w"> </span>verify
+</code></pre></div>
+<p>You need to launch this command from your <code>pom.xml</code> directory, or specify the path to it with <code>--file /path/to/pom.xml</code> argument.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>What is it supposed to do?</p>
+</div>
+<p>This command will actually clear your previous builds inside your cache (otherwise your can have unexpected behavior because maven did not build again each part of your application), then it will freshly build each module inside your application, and finally it will run both <a href="https://www.guru99.com/unit-testing-guide.html#2" target="_blank">Unit Tests</a> and <a href="https://www.guru99.com/integration-testing.html" target="_blank">Integration Tests</a> (sometime called Component Tests as well).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Unit tests? Component tests?</p>
+</div>
+<p>Integration tests require a database to verify you correctly inserted or retrieved data from it. Fortunately for you, we’ve already taken care of this! But you still need to understand how it works under the hood. Take a look at your application file tree. </p>
+<p>Let’s take a look at the <code>pom.xml</code> that is inside the <strong>simple-api</strong>, you will find some very helpful dependencies for your testing.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">&lt;dependencies&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.testcontainers<span class="nt">&lt;/groupId&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>testcontainers<span class="nt">&lt;/artifactId&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="nt">&lt;version&gt;</span>${testcontainers.version}<span class="nt">&lt;/version&gt;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.testcontainers<span class="nt">&lt;/groupId&gt;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>jdbc<span class="nt">&lt;/artifactId&gt;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="nt">&lt;version&gt;</span>${testcontainers.version}<span class="nt">&lt;/version&gt;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.testcontainers<span class="nt">&lt;/groupId&gt;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>postgresql<span class="nt">&lt;/artifactId&gt;</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">        </span><span class="nt">&lt;version&gt;</span>${testcontainers.version}<span class="nt">&lt;/version&gt;</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="nt">&lt;/dependencies&gt;</span>
+</code></pre></div>
+<p>As you can see, there are a bunch of testcontainers dependencies inside the pom. </p>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>2-1 What are testcontainers?</p>
+</div>
+<p>They simply are java libraries that allow you to run a bunch of docker containers while testing. Here we use the postgresql container to attach to our application while testing. If you run the command <code>mvn clean verify</code> you’ll be able to see the following:</p>
+<p><img alt="logs_spring" src="../assets/logs_spring.png" /></p>
+<p>As you can see, a docker container has been launched while your tests were running, pretty convenient, isn’t it? </p>
+<p>Finally, you’ll see your test results. </p>
+<p>Now, it is up to you! Create your first CI, asking to build and test your application every time someone commits and pushes code on the repository.</p>
+<p>First you create a <code>.github/workflows</code> directory in your repository on GitHub.</p>
+<p><img alt="github_actions_1" src="../assets/github_actions_1.png" /></p>
+<p>Put your <code>main.yml</code> inside workflows.</p>
+<p>The <code>main.yml</code> holds the architecture of your pipeline. Each job will represent a step of what you want to do. Each job will be run in parallel unless a link is specified.</p>
+<p>Here is what your <code>main.yml</code> should look like:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI devops 2023</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">on</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="c1">#to begin you want to launch this job in main and develop</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="c1">#TODO </span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nt">jobs</span><span class="p">:</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="nt">test-backend</span><span class="p">:</span><span class="w"> </span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">     </span><span class="c1">#checkout your github code using actions/checkout@v2.5.0</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v2.5.0</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">     </span><span class="c1">#do the same with another action (actions/setup-java@v3) that enable to setup jdk 17</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up JDK 17</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">        </span><span class="c1">#TODO</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">     </span><span class="c1">#finally build your app with the latest command</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build and test with Maven</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="c1">#TODO</span>
+</code></pre></div>
+<p>It’s your turn, fill the #TODOs!</p>
+<p>To see the result you must follow the next steps:</p>
+<p><img alt="github_actions_2" src="../assets/github_actions_2.png" /></p>
+<p>And if it’s GREEN you win! </p>
+<p><img alt="github_actions_3" src="../assets/github_actions_3.png" /></p>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>2-2 Document your Github Actions configurations.</p>
+</div>
+<h3 id="first-steps-into-the-cd-world">First steps into the CD World</h3>
+<p>Here we are going to configure the Continuous Delivery of our project. Therefore, the main goal will be to create and save a docker image containing our application on the Docker Hub every time there is a commit on a main branch.</p>
+<p>As you probably already noticed, you need to log in to docker hub to perform any publication. However, you don’t want to publish your credentials on a public repository (it is not even a good practise to do it on a private repository). Fortunately, <strong>GitHub</strong> allows you to create secured environment variables.</p>
+<p>1- Add your docker hub credentials to the environment variables in  <strong>GitHub Actions</strong> (and let them secured).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Secured Variables, why?</p>
+</div>
+<p>Now that you added them, you can freely declare them and use them inside your <strong>GitHub Actions</strong> pipeline. </p>
+<p><img alt="github_actions_4" src="../assets/github_actions_4.png" /></p>
+<p>2- Build your docker images inside your <strong>GitHub Actions</strong> pipeline.</p>
+<p>Maybe the template Build a docker image can help you!</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># define job to build and publish docker image</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">build-and-push-docker-image</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w"> </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-backend</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w"> </span><span class="c1"># run only when code is compiling and tests are passing</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w"> </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-22.04</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w"> </span><span class="c1"># steps to perform in job</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w"> </span><span class="nt">steps</span><span class="p">:</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">   </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout code</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">     </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v2.5.0</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">   </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build image and push backend</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">     </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/build-push-action@v3</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">     </span><span class="nt">with</span><span class="p">:</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">       </span><span class="c1"># relative path to the place where source code with Dockerfile is located</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">       </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./simple-api</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">       </span><span class="c1"># Note: tags has to be all lower-case</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">       </span><span class="nt">tags</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">${{secrets.DOCKERHUB_USERNAME}}/tp-devops/simple-api</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">   </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build image and push database</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain"># DO the same for database</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">   </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build image and push httpd</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">     </span><span class="c1"># DO the same for httpd</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Why did we put <strong>needs: build-and-test-backend</strong> on this job? Maybe try without this and you will see!</p>
+</div>
+<p>OK your images are built but not yet published on <a href="https://hub.docker.com/" target="_blank">dockerhub</a>.</p>
+<p>3- Publish your docker images when there is a commit on the main branch.</p>
+<p>Don’t forget to do a docker login and to put your credentials on secrets!</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Login to DockerHub</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}</span>
+</code></pre></div>
+<p>And after modify job <code>Build image and push backend</code> to add a <code>push</code> action:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build image and push backend</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker/build-push-action@v3</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="c1"># relative path to the place where source code with Dockerfile is located</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./simple-api</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="c1"># Note: tags has to be all lower-case</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">tags</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">${{secrets.DOCKERHUB_USERNAME}}/tp-devops:simple-api</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="c1"># build on feature branches, push only on main branch</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nt">push</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.ref == &#39;refs/heads/main&#39; }}</span>
+</code></pre></div>
+<p>Do the same for other containers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For what purpose do we need to push docker images?</p>
+</div>
+<p>Now you should be able to find your docker images on your docker repository.</p>
+<div class="admonition check">
+<p class="admonition-title">Check</p>
+<p>Working CI &amp; Docker images pushed to your repository.</p>
+</div>
+<h2 id="setup-quality-gate">Setup Quality Gate</h2>
+<h3 id="what-is-quality-about">What is quality about?</h3>
+<p>Quality is here to make sure your code will be maintainable and determine every unsecured block. It helps you produce better and tested features, and it will also prevent having dirty code pushed inside your main branch.</p>
+<p>For this purpose, we are going to use <strong>SonarCloud</strong>, a cloud solution that makes analysis and reports of your code. This is a useful tool that everyone should use in order to learn java best practices.</p>
+<h3 id="register-to-sonarcloud">Register to SonarCloud</h3>
+<p>Create your free-tier account on <a href="https://sonarcloud.io/" target="_blank">SonarCloud</a>.</p>
+<p><strong>SonarCloud</strong> will propose you to set up your <strong>GitHub Actions</strong> pipeline from the <strong>GitHub Actions</strong>, but forget about that, there is a much better way to save the <strong>SonarCloud</strong> provided and provide it into your <code>main.yml</code>.</p>
+<p>1- You must create an organization.</p>
+<p><img alt="sonarcloud_1" src="../assets/sonarcloud_1.png" /></p>
+<p>2- And keep the project key and the organization key you will need it later.</p>
+<p><img alt="sonarcloud_2" src="../assets/sonarcloud_2.png" /></p>
+<p>3- You need to add this script to your <code>main.yml</code> for launch sonar at each commit.</p>
+<p>Set up your pipeline to use <strong>SonarCloud</strong> analysis while testing.</p>
+<p>For that, you need to modify your first step named <strong>Build and test</strong> with Maven and change sonar organization and project key.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mvn<span class="w"> </span>-B<span class="w"> </span>verify<span class="w"> </span>sonar:sonar<span class="w"> </span>-Dsonar.projectKey<span class="o">=</span>devops-2023<span class="w"> </span>-Dsonar.organization<span class="o">=</span>devops-school<span class="w"> </span>-Dsonar.host.url<span class="o">=</span>https://sonarcloud.io<span class="w"> </span>-Dsonar.login<span class="o">=</span><span class="si">${</span><span class="p">{ secrets.SONAR_TOKEN </span><span class="si">}</span><span class="o">}</span><span class="w">  </span>--file<span class="w"> </span>./simple-api/pom.xml
+</code></pre></div>
+<p>If you did your configuration correctly, you should be able to see the <strong>SonarCloud analysis</strong> report online:</p>
+<p><img alt="sonarcloud_3" src="../assets/sonarcloud_3.png" /></p>
+<div class="admonition check">
+<p class="admonition-title">Check</p>
+<p>Working quality gate.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>Document your quality gate configuration.</p>
+</div>
+<p>Well done buddies, you’ve created your very first Quality Gate! Yay!</p>
+<h2 id="bonus-split-pipelines-optional">Bonus: split pipelines (Optional)</h2>
+<p>In this step you have to separate your jobs into different workflows so that they respect 2 things:</p>
+<ul>
+<li><strong>test-backend</strong> must be launched on develop and master branch and <strong>build-and-push-docker-image</strong> on master only.</li>
+<li>The job that pushes the docker api image must be launched only if <strong>test-backend</strong> is passed.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can use <strong>on: workflow_run</strong> to trigger a workflow when another workflow is passed.</p>
+</div>
+<p align="center">&copy; Takima 2023</p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../ch1-discover-docker-tp/" class="md-footer__link md-footer__link--prev" aria-label="Previous: TP part 01 - Docker" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              TP part 01 - Docker
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../ch1-discover-docker-td/" class="md-footer__link md-footer__link--next" aria-label="Next: TD part 01 - Docker" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              TD part 01 - Docker
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -30,7 +30,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./devops-resources-main/solution/01-docker/simple-api
-          tags: ${{secrets.DOCKERUSERNAME}}/tpdockercomposercorrection_httpd:latest
+          tags: ${{secrets.DOCKERUSERNAME}}/tpdockercomposercorrection_backend:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
           

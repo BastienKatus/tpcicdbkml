@@ -20,6 +20,9 @@ jobs:
     needs: test-backend
     runs-on: ubuntu-22.04
     steps:
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKERUSERNAME }} -p ${{ secrets.DOCKERTOKEN}}
+        
       - name: Checkout code
         uses: actions/checkout@v2.5.0
         
@@ -47,5 +50,4 @@ jobs:
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
           
-      - name: Login to DockerHub
-        run: docker login -u ${{ secrets.DOCKERUSERNAME }} -p ${{ secrets.DOCKERTOKEN}}
+      

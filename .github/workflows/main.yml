@@ -22,18 +22,21 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.5.0
+        
       - name: Build image and push backend
         uses: docker/build-push-action@v3
         with:
-          context: ./simple-api
-          tags: ${{secrets.DOCKERUSERNAME}}/devops-resources-main/solution/01-docker/simple-api
+          context: ./devops-resources-main/solution/01-docker/simple-api
+          tags: ${{secrets.DOCKERUSERNAME}}/tpdockercomposercorrection_httpd:latest
+          
       - name: Build image and push database
         uses: docker/build-push-action@v3
         with:
-          context: ./database
-          tags: ${{secrets.DOCKERUSERNAME}}/devops-resources-main/solution/01-docker/database
+          context: ./devops-resources-main/solution/01-docker/database
+          tags: ${{secrets.DOCKERUSERNAME}}/tpdockercomposercorrection_database:latest
+          
       - name: Build image and push httpd
         uses: docker/build-push-action@v3
         with:
-          context: ./httpd
-          tags: ${{secrets.DOCKERUSERNAME}}/devops-resources-main/solution/01-docker/httpd
+          context: ./devops-resources-main/solution/01-docker/httpd
+          tags: ${{secrets.DOCKERUSERNAME}}/tpdockercomposercorrection_httpd:latest

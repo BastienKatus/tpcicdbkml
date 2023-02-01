@@ -28,15 +28,24 @@ jobs:
         with:
           context: ./devops-resources-main/solution/01-docker/simple-api
           tags: ${{secrets.DOCKERUSERNAME}}/tpdockercomposercorrection_httpd:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
           
       - name: Build image and push database
         uses: docker/build-push-action@v3
         with:
           context: ./devops-resources-main/solution/01-docker/database
           tags: ${{secrets.DOCKERUSERNAME}}/tpdockercomposercorrection_database:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
           
       - name: Build image and push httpd
         uses: docker/build-push-action@v3
         with:
           context: ./devops-resources-main/solution/01-docker/httpd
           tags: ${{secrets.DOCKERUSERNAME}}/tpdockercomposercorrection_httpd:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
+          
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKERUSERNAME }} -p ${{ secrets.DOCKERTOKEN}}

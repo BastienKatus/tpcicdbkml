@@ -1,2 +1,6 @@
 ---
 # tasks file for roles/proxy
+- name: Run PROXY
+  docker_container:
+    name: tpdockercomposercorrection_httpd
+    image: bastienkatus/tpdockercomposercorrection_httpd:latest

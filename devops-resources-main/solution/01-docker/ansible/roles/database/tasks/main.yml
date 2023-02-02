@@ -1,2 +1,6 @@
 ---
 # tasks file for roles/database
+- name: Run DB
+  docker_container:
+    name: tpdockercomposercorrection_database
+    image: bastienkatus/tpdockercomposercorrection_database:latest

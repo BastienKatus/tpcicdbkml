@@ -40,8 +40,3 @@
   - name: Make sure Docker is running
     service: name=docker state=started
     tags: docker
-
-  - name: Run HTTPD
-    docker_container:
-      name: tpdockercomposercorrection_httpd
-      image: bastienkatus/tpdockercomposercorrection_httpd:latest

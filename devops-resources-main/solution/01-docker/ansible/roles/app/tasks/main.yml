@@ -2,5 +2,10 @@
 # tasks file for roles/app
 - name: Run BACKEND
   docker_container:
-    name: tpdockercomposercorrection_backend
+    name: backend
     image: bastienkatus/tpdockercomposercorrection_backend:latest
+    networks: 
+      - name: app-network
+    ports:
+      - 8080:8080
+

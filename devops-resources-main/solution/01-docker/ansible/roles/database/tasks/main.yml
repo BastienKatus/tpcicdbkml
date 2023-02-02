@@ -2,5 +2,11 @@
 # tasks file for roles/database
 - name: Run DB
   docker_container:
-    name: tpdockercomposercorrection_database
+    name: database
     image: bastienkatus/tpdockercomposercorrection_database:latest
+    networks: 
+      - name: app-network
+    env: 
+      POSTGRES_DB: db
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: pwd

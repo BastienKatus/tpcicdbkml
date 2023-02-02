@@ -2,5 +2,10 @@
 # tasks file for roles/proxy
 - name: Run PROXY
   docker_container:
-    name: tpdockercomposercorrection_httpd
+    name: httpd
     image: bastienkatus/tpdockercomposercorrection_httpd:latest
+    networks: 
+      - name: app-network
+    ports:
+      - 80:80
+

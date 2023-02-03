@@ -553,8 +553,7 @@ sudo docker ps
 # Vérifier que toutes les images des dockers tournent sur la VM.
 ```
 
-Nous pouvons donc bien accéder à notre application déployé via l'url 
-## [bastien.katuszynski.takima.cloud](bastien.katuszynski.takima.cloud)
+Nous pouvons donc bien accéder à notre application déployé via l'url bastien.katuszynski.takima.cloud
 
 ![Image site](site.png)
 ![Image students](students.png)

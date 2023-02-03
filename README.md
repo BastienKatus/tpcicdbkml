@@ -7,47 +7,43 @@ ___
 
 ## Database
 Création d'un dossier
-``` 
+``` bash
 mkdir tp1
 cd tp1/
 touch Dockerfile
 ```
-```
+``` bash
 docker pull postgres
 ```
 Ecriture du dockerfile :
-```
+``` bash
 nano Dockerfile
-
+```
 >
+``` dockerfile
 FROM postgres:14.1-alpine
 ENV POSTGRES_DB=db \
 POSTGRES_USER=usr \
 POSTGRES_PASSWORD=pwd
 ```
 Création de l'image
-```
+``` bash
 docker build -t bastienkatus/postgres
 ```
 
 Run l'image :
-```
+``` bash
 docker run -p 8888:5000 --name postgres bastienkatus/postgres
 ```
 Initialisation de la database :
-```
+``` bash
 docker network create app-network
 ```
-```
-docker run \
--p "8090:8080" \
---net=app-network \
---name=adminer \
--d \
-adminer
+``` bash
+docker run -p "8090:8080" --net=app-network --name=adminer -d adminer
 ```
 Création du schéma SQL :
-```
+``` sql
 touch 01-CreateScheme.sql
 nano 01-CreateScheme.sql
 
@@ -66,7 +62,7 @@ CREATE TABLE public.students
 );
 ```
 Insertion des données SQL :
-```
+``` sql
 touch 02-InsertData.sql
 nano 02-InsertData.sql
 
@@ -81,11 +77,11 @@ INSERT INTO students (department_id, first_name, last_name) VALUES (3, 'Aude', '
 ```
 
 On modifie le Dockerfile : (On copie les scritps SQL sur l'image)
-```
+``` dockerfile
 COPY [Scripts SQL] /docker-entrypoint-initdb.d/
 ```
 On rebuild et on rerun :
-```
+``` bash
 docker build -t bastienkatus/postgres .
 
 docker run --network app-network --name some-postgres -e POSTGRES_PASSWORD=pwd -d postgres-bastien
@@ -96,11 +92,11 @@ On se connecter à localhost:8090 et on peut accéder aux données
 Pour la persistance des données :
 
 On créé un volume
-```
+``` bash
 mkdir volume
 ```
 et on relance le run avec la commande
-```
+``` bash
 docker run --network app-network --name some-postgres -e POSTGRES_PASSWORD=pwd -d postgres-bastien -v volume:/var/lib/postgresql/data
 ```
 
@@ -114,7 +110,7 @@ On créé un fichier à la source /tpJAVA
 On ouvre le Dockerfile et on y insère :
 
 ### JDK -> <u>Compiler</u>
-```
+``` dockerfile
 FROM openjdk:11
 # Build Main.java
 # TODO : in next steps (not now)
@@ -128,7 +124,7 @@ RUN javac Main.java
 ### JRE -> <u>Exécuter</u>
 
 On rajoute la ligne
-```
+``` dockerfile
 CMD ["java", "Main"]
 ```
 On rebuild et on relance
@@ -139,7 +135,7 @@ On a un multistage build car il faut d'abbord compiler puis executer le programm
 ## Backend API
 
 Dockerfile :
-```
+``` dockerfile
 # Build
 FROM maven:3.8.6-amazoncorretto-17 AS myapp-build
 ENV MYAPP_HOME /opt/myapp
@@ -160,7 +156,7 @@ ENTRYPOINT java -jar myapp.jar
 ## Docker compose :
 
 On supprime toutes les images
-```
+``` bash
 docker rm -f .....
 ```
 
@@ -168,7 +164,7 @@ On télécharge le zip présent sur le git pour récupérer la correction de la 
 
 On vérifie la présence des tous les fichiers, notamment du .env contenant les variables d'environnement.
 
-```
+``` bash
 docker-compose build
 docker-compose up -d
 ```
@@ -195,7 +191,7 @@ Question 2-1 :
 Les testcontainers sont des librairies java qui permettent d'executer un ensemble de conteneurs docker lors des test.
 
 Création d'un fichier .github/workflows à la racine du projet et d'un fichier main.yml :
-```
+``` yml
 name: CI devops 2023
 on:
   #to begin you want to launch this job in main and develop
@@ -232,10 +228,10 @@ Comme c'est un .yml on a pas osé faire de commentaires car ca aurait tout casse
 * On a ajouté une action qui lance le maven clean et verify.
 
 Ajout des secrets de Docker dans GitHub :
-![Image secrets](secrests.png)
+![Image secrets](secrets.png)
 
 Construction des images docker dans le GitHub Action pipeline :
-```
+``` yml
 name: CI devops 2023
 on:
   push:
@@ -282,7 +278,7 @@ jobs:
 ```
 
 On publie les images sur dockerhub avec ces lignes à la suite du yml :
-```
+``` yml
 - name: Build image and push httpd
         uses: docker/build-push-action@v3
         with:
@@ -303,7 +299,7 @@ ___
 Dans la VM, nous avons ajouté dans le fichier /etc/ansible/host le nom de domaine bastien.katuszynski.takima.cloud pour y accéder.
 
 On a créé le fichier ansible/inventories/setup.yml :
-```
+``` yml
 all:
  vars:
    ansible_user: centos
@@ -314,17 +310,17 @@ all:
 ```
 
 Lancement de la commande pour tester l'inventaire :
-```
+``` bash
 ansible all -i ./setup.yml -m ping
 ```
 
 Lancement de la commande pour demander au serveur la distribution :
-```
+``` bash
 ansible all -i ./setup.yml -m setup -a "filter=ansible_distribution*"
 ```
 
 Lancement de la commande pour supprimer le serveur apache installer lors du TD :
-```
+``` bash
 ansible all -i inventories/setup.yml -m yum -a "name=httpd state=absent" --become
 ```
 
@@ -333,7 +329,7 @@ Question 3-1 :
 ## Playbooks
 
 On créé un playbook dans le dossier ansible (playbook.yml)
-```
+``` yml
 - hosts: all
   gather_facts: false
   become: yes
@@ -344,12 +340,12 @@ On créé un playbook dans le dossier ansible (playbook.yml)
 
 ```
 Et on éxecute le playbook :
-```
+``` bash
 ansible-playbook -i ./setup.yml playbook.yml
 ```
 
 On créé un advanced playbook dans le dossier ansible en remplacant l'ancient playbook.yml
-```
+``` yml
 - hosts: all
   gather_facts: false
   become: yes
@@ -393,18 +389,18 @@ On créé un advanced playbook dans le dossier ansible en remplacant l'ancient p
 
 ```
 Et on éxecute le advanced playbook :
-```
+``` bash
 ansible-playbook -i ./setup.yml playbook.yml
 ```
 
 Création d'un role docker :
-```
+``` bash
 ansible-galaxy init roles/docker
 ```
 
 Cette commande créé le dossier /roles/docker et on peut ensuite supprimer ceux que nous n'avons pas besoin :
 
-```
+``` bash
 rm defaults/ && rm files/ && rm meta/ && rm templates/ && rm tests/ && rm vars/
 ```
 
@@ -422,15 +418,16 @@ Pour le déploiement, nous avons créé les roles pour chaque tâche de l'applic
 Voici les playbook relatif à chacun de ces rôles :
 
 ### Network :
-```
+``` yml
 # tasks file for roles/network
 - name: Run NETWORK
   docker_network:
     name: app-network
 ```
+Ici, on créé un conteneur docker qui s'occupe du réseau.
 
 ### Proxy :
-``` 
+```  yml
 # tasks file for roles/proxy
 - name: Run PROXY
   docker_container:
@@ -441,9 +438,11 @@ Voici les playbook relatif à chacun de ces rôles :
     ports:
       - 80:80
 ```
+Ici, on créé un docker qui permet d'accèder au site web. Cela tourne sur un serveur apache.
+On définit également la communication avec le conteneur Network en ouvrant le port TCP 80.
 
 ### App :
-```
+``` yml
 # tasks file for roles/app
 - name: Run BACKEND
   docker_container:
@@ -454,9 +453,12 @@ Voici les playbook relatif à chacun de ces rôles :
     ports:
       - 8080:8080
 ```
+Conteneur qui contient le backend de l'application.
+On définit également la communication avec le conteneur Network en ouvrant le port TCP 8080.
+
 
 ### Database :
-```
+``` yml
 # tasks file for roles/database
 - name: Run DB
   docker_container:
@@ -469,7 +471,80 @@ Voici les playbook relatif à chacun de ces rôles :
       POSTGRES_USER: usr
       POSTGRES_PASSWORD: pwd
 ```
+Docker qui instore la database avec des variables d'environnement pour pouvoir accéder aux données et éxecuter les scripts.
+On définit également la communication avec le conteneur Network.
+
+Voici le playbook situé dans le répertoire d'ansible :
+``` yml
+- hosts: all
+  gather_facts: false
+  become: yes
+  #On appelle les tasks de chacun des rôles
+  roles:
+    - docker
+    - network
+    - database
+    - app
+    - proxy
+
+# Install Docker
+  tasks:
+  - name: Clean packages
+    command:
+      cmd: dnf clean -y packages
+
+  - name: Install device-mapper-persistent-data
+    dnf:
+      name: device-mapper-persistent-data
+      state: latest
+
+  - name: Install lvm2
+    dnf:
+      name: lvm2
+      state: latest
+
+  - name: add repo docker
+    command:
+      cmd: sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
+  - name: Install Docker
+    dnf:
+      name: docker-ce
+      state: present
+
+  - name: install python3
+    dnf:
+      name: python3
+
+  - name: Make sure Docker is running
+    service: name=docker state=started
+    tags: docker
+```
+
+Normalement le playbook n'est censé lancer que les rôles mais on y trouve l'installation du docker qui devrait être dans le playbook de `roles/Docker`.
+
+On éxecute par la suite la commande
+``` bash
+ansible-playbook -i [chemin]./setup.yml playbook.yml
+```
+
+Nous pouvons tester sur la machine hôte avec les commandes :
+``` bash
+ssh -i [chemin vers la clé RSA] centos@bastien.katuszynski.takima.cloud
+
+sudo docker ps
+# Vérifier que toutes les images des dockers tournent sur la VM.
+```
+
+Nous pouvons donc bien accéder à notre application déployé via l'url bastien.katuszynski.takima.cloud
+
+![Image site](site.png)
+![Image students](students.png)
 
 ## Front
 
 Nous n'avons pas eu le temps d'implémenter le front.
+
+## Déploiement Continue
+
+Nous n'avons pas eu le temps d'implémenter le déploiement continu.

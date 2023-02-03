@@ -412,7 +412,63 @@ Question 3-1 :
 
 ## Deploiement de l'application
 
-Pour le déploiement, nous avons créé les images 
+Pour le déploiement, nous avons créé les roles pour chaque tâche de l'application.
+* Docker pour l'installation de docker
+* Network pour la création du réseau de communication des dockers
+* Proxy qui fait tourner le httpd
+* App qui contient le backend
+* Database pour la base de données
+
+Voici les playbook relatif à chacun de ces rôles :
+
+### Network :
+```
+# tasks file for roles/network
+- name: Run NETWORK
+  docker_network:
+    name: app-network
+```
+
+### Proxy :
+``` 
+# tasks file for roles/proxy
+- name: Run PROXY
+  docker_container:
+    name: httpd
+    image: bastienkatus/tpdockercomposercorrection_httpd:latest
+    networks: 
+      - name: app-network
+    ports:
+      - 80:80
+```
+
+### App :
+```
+# tasks file for roles/app
+- name: Run BACKEND
+  docker_container:
+    name: backend
+    image: bastienkatus/tpdockercomposercorrection_backend:latest
+    networks: 
+      - name: app-network
+    ports:
+      - 8080:8080
+```
+
+### Database :
+```
+# tasks file for roles/database
+- name: Run DB
+  docker_container:
+    name: database
+    image: bastienkatus/tpdockercomposercorrection_database:latest
+    networks: 
+      - name: app-network
+    env: 
+      POSTGRES_DB: db
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: pwd
+```
 
 ## Front
 

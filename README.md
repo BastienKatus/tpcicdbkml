@@ -134,7 +134,7 @@ On a un multistage build car il faut d'abbord compiler puis executer le programm
 
 ## Backend API
 
-Dockerfile :
+Docker-compose file :
 ``` dockerfile
 # Build
 FROM maven:3.8.6-amazoncorretto-17 AS myapp-build
@@ -176,10 +176,18 @@ docker-compose up -d : Lancer en arrière plan
 docker ps : Lister les processus
 
 Question 1-4 :
-Documentation au dessus.
+Documentation du docker-compose file :
 
-Question 1-5 :
-Documentation et image à rajouter sur dockerhub
+Le Build :
+* La commande `FROM` permet de récupérer un conteneur docker officiel maven.
+* `ENV` permet de redéfinir l'environnement
+* `WORKDIR` permet de définir le répertoire de travail
+* `COPY` copie le pom.xml et le fichier src dans la VM
+* `RUN` permet de lancer la commande `mvn package` pour compiler et build l'application
+
+Le Run :
+* Idem que le build pour `FROM`, `ENV` et `WORKDIR`.
+* `COPY` copie le build créé juste avant dans la VM.
 
 Pour la suite, on push toutes les images sur des repositories dockerhub
 
@@ -325,6 +333,12 @@ ansible all -i inventories/setup.yml -m yum -a "name=httpd state=absent" --becom
 ```
 
 Question 3-1 :
+Documentation de l'inventaire
+* On déclare l'utilisateur qui sera authentifié sur la VM (centos)
+* On définit le chemin de la clé SSH
+* On définit le nom de domaine de l'environnement de production.
+
+Documentation des commandes au dessus.
 
 ## Playbooks
 
@@ -349,6 +363,12 @@ On créé un advanced playbook dans le dossier ansible en remplacant l'ancient p
 - hosts: all
   gather_facts: false
   become: yes
+  roles:
+    - docker
+    - network
+    - database
+    - app
+    - proxy
 
 # Install Docker
   tasks:
@@ -379,14 +399,9 @@ On créé un advanced playbook dans le dossier ansible en remplacant l'ancient p
     dnf:
       name: python3
 
-  - name: Pip install
-    pip:
-      name: docker
-
   - name: Make sure Docker is running
     service: name=docker state=started
     tags: docker
-
 ```
 Et on éxecute le advanced playbook :
 ``` bash
@@ -405,6 +420,8 @@ rm defaults/ && rm files/ && rm meta/ && rm templates/ && rm tests/ && rm vars/
 ```
 
 Question 3-1 :
+* On appelle tous les rôles à exécuter leurs tâches.
+* On installe Docker (ca devrait être fait dans le main.yml du role Docker) et autres utilités au déploiement.
 
 ## Deploiement de l'application
 
@@ -536,10 +553,21 @@ sudo docker ps
 # Vérifier que toutes les images des dockers tournent sur la VM.
 ```
 
-Nous pouvons donc bien accéder à notre application déployé via l'url bastien.katuszynski.takima.cloud
+Nous pouvons donc bien accéder à notre application déployé via l'url 
+## [bastien.katuszynski.takima.cloud](bastien.katuszynski.takima.cloud)
 
 ![Image site](site.png)
 ![Image students](students.png)
+
+Question :
+Documentation du docker_container tasks :
+* On clean les packages
+* on install device-mapper-persitent-data pour la persistance des données (enregistrement même si serveur redémarré)
+* On installe lvm2
+* On ajoute le repository docker
+* On installe docker
+* On installe python3
+* On s'assure que docker est lancé
 
 ## Front
 
